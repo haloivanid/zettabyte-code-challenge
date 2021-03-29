@@ -1,4 +1,5 @@
 const db = require('../models')
+const objectValidator = require('../helpers/validator')
 
 module.exports = {
     blogGetAll: function (req, res) {
@@ -24,6 +25,11 @@ module.exports = {
     },
     blogGetOne: function (req, res) {
         //** line for validation */
+        try {
+            objectValidator('blogGetOne', req.params)
+        } catch (error) {
+            return res.status(421).json(error)
+        }
 
         db.blogs.findOne({ _id: req.params.id }, function (err, result) {
             if (err) {
@@ -56,6 +62,11 @@ module.exports = {
     },
     blogCreate: function (req, res) {
         //** line for validation */
+        try {
+            objectValidator('blogCreate', req.body)
+        } catch (error) {
+            return res.status(421).json(error)
+        }
 
         const blogDetail = {
             blogName: req.body.blogName,
@@ -84,6 +95,11 @@ module.exports = {
     },
     blogUpdate: function (req, res) {
         //** line for validation */
+        try {
+            objectValidator('blogUpdate', req.body)
+        } catch (error) {
+            return res.status(421).json(error)
+        }
 
         db.blogs.findByIdAndUpdate(
             { _id: req.body.id },
@@ -120,6 +136,11 @@ module.exports = {
     },
     blogDelete: function (req, res) {
         //** line for validation */
+        try {
+            objectValidator('blogDelete', req.params)
+        } catch (error) {
+            return res.status(421).json(error)
+        }
 
         db.blogs.findByIdAndDelete(
             { _id: req.params.id },
